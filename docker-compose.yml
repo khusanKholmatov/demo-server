@@ -26,7 +26,7 @@ services:
     image: demo-server:latest
     container_name: demo-server
     build:
-      context: /demo-server/.
+      context: .
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-user:5432/demo-server
     ports:
