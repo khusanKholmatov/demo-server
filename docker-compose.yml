@@ -1,3 +1,7 @@
+networks:
+  demo-server:
+    driver: bridge
+
 version: '3.7'
 services:
   ## PostgresSQL Docker Compose Config
@@ -15,6 +19,24 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
     restart: always
+    networks:
+      - demo-server
+
+  demo-server:
+    image: demo-server:latest
+    container_name: demo-server
+    build:
+      context: /demo-server/.
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-user:5432/demo-server
+    ports:
+      - "8080:8080"
+    expose:
+      - "8080"
+    depends_on:
+      - postgres-user
+    networks:
+      - demo-server
 
 volumes:
   postgres-data:
